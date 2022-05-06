@@ -28,15 +28,12 @@ function Home() {
         
     }
 
-    useEffect(() => {
-        getRegistros();
-    
-    }, []);
+    useEffect(() => getRegistros(), []);
 
 
     function listarRegistros() {
         return  (
-            <Registros>
+            <div className="registro-valores">
                 {registros.map((registro, index) => {
                     if (registro.tipo === "Entrada") {
                         entrada = entrada - registro.valor;
@@ -59,38 +56,62 @@ function Home() {
                     <p>{(entrada * (-1)) + saida}</p>
                 </div>
                
-            </Registros>            
+            </div>            
             
         )
     }    
     
     return (
-        <>
-            <div>
+        <Contanier>
+            <div className="header">
                 <p>Olá, {registros[registros.length -1]}</p>
-                {listarRegistros()}
                 <button>deslogar</button>
             </div>
-            <Buttons className="buttons">
-                <Div><Link to="/entrada"><button>+</button></Link></Div>
-                <Div><Link to="/saida"><button>-</button></Link></Div>
-            </Buttons>
-        </>
+            <div className="registros">{listarRegistros()}</div>
+            <div className="buttons">
+                <Div>
+                    <StyledLink to="/entrada"><ion-icon name="add-circle-outline"></ion-icon></StyledLink>
+                    <p>Nova entrada</p>
+                </Div>
+                <Div>
+                    <StyledLink to="/saida"><ion-icon name="remove-circle-outline"></ion-icon></StyledLink> 
+                    <p>Nova saída</p>  
+                </Div>
+            </div>
+        </Contanier>
     );
 }
 
-const Div = styled.div`
-    width: 50px;
-    height: 50px;
-    background-color: #ffffff;
-`;
-const Buttons = styled.div`
-    width: 150px;
+const Contanier = styled.div`
     display: flex;
-    justify-content: space-between;
-`;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
 
-const Registros = styled.div`
+    .header {
+        width: 326px;
+        margin-left: 25px;
+        margin-right: 25px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .header p {
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 31px;
+        color: #ffffff;
+    }
+
+    .registros {
+        margin-top: 22px;
+        width: 326px;
+        height: 446px;
+        background-color: #FFFFFF;
+        border-radius: 5px;
+    }
+
     .registro-info {
         display: flex;
         justify-content: space-between;
@@ -104,6 +125,49 @@ const Registros = styled.div`
         display: flex;
         justify-content: space-between;
     }
+
+    .buttons {
+        width: 326px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 13px;
+    }
+
+    ion-icon {
+        width: 21.88px;
+        height: 21.88px;
+        color: #ffffff;
+        border-radius: 100%;
+        margin: 10.56px 123.56px 0 9.56px;
+        background-color: #A328D6;
+    }
 `;
+
+const StyledLink = styled(Link)`
+    background-color: #A328D6;
+`;
+
+const Div = styled.div`
+    width: 155px;
+    height: 114px;
+    background-color: #A328D6;
+    border-radius: 5px;
+
+    p {
+        font-family: 'Raleway';
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 20px;
+        color: #FFFFFF;
+        background-color: #A328D6;
+        width: 64px;
+        height: 40px;
+        margin-top: 32px;
+        margin-left: 10px;
+
+    }
+`;
+
+
 export default Home;
 
