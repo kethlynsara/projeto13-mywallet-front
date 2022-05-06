@@ -26,26 +26,17 @@ function Login() {
     } 
     return (
       <Contanier>
-          <H2>MyWallet</H2>
+          <h1>MyWallet</h1>
           <form>
               <input type="email" placeholder="E-mail" value={email} required onChange={(e) => setEmail(e.target.value)}></input>
               <input type="password" placeholder="Senha" value={senha} required onChange={(e) => setSenha(e.target.value)}></input>
               <button type="button" onClick={fazerLogin}>Entrar</button>
-              <Link to="/sign-up">Primeira vez? Cadastre-se!</Link>
+              <StyledLink to="/sign-up">Primeira vez? Cadastre-se!</StyledLink>
           </form>
       </Contanier>
     ) 
     
 }
-
-const H2 = styled.h2`
-  font-family: "Saira Stencil One";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 32px;
-  line-height: 50px;
-  color: #ffffff;
-`;
 
 const Contanier = styled.div`
     display: flex;
@@ -53,6 +44,15 @@ const Contanier = styled.div`
     justify-content: center;
     align-items: center;
     padding: 159px 25px 192px 25px;
+
+    h1 {
+        font-family: "Saira Stencil One";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 50px;
+        color: #ffffff;
+    }
 
     form {
     display: flex;
@@ -71,6 +71,8 @@ const Contanier = styled.div`
     }
 
     input::placeholder {
+        font-size: 20px;
+        line-height: 23px;
         font-weight: 400;
         color: #000000;
     }
@@ -84,6 +86,20 @@ const Contanier = styled.div`
         height: 46px;
         color: #ffffff;
         margin-bottom: 36px;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 23px;
     }
 `;
+
+const StyledLink = styled(Link)`
+    font-family: 'Raleway', sans-serif;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+`;
+
 export default Login;
