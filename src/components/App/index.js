@@ -13,7 +13,6 @@ import "../../assets/css/reset.css"
 
 function App() {
     const [token, setToken] = useState("");
-    console.log("come onnnn", token)
     return (
         <UserContext.Provider value={{token, setToken}}>
             <BrowserRouter>

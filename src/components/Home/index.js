@@ -7,9 +7,7 @@ import styled from "styled-components";
 
 function Home() {
     const { token, setToken } = useContext(UserContext);
-
-    const [registros, setRegistros] = useState(null);
-    console.log(token);
+    const [registros, setRegistros] = useState([]);
 
     const config = {
         headers: {
@@ -17,23 +15,50 @@ function Home() {
         }
     };
 
-    async function listarRegistros() {
+    async function getRegistros() {
         try {
             const response = await axios.get("http://localhost:5000/registros", config);
-            console.log("api response", response.data);
-            setRegistros(response.data);
+            const { data } = response;
+            setRegistros(data);
+
         }catch(e) {
             console.log("não deu bom no get registros", e.response);
         }
         
     }
 
-    useEffect(() => listarRegistros(), []);
+    useEffect(() => getRegistros(), []);
 
+
+    registros.map(e => console.log(e))
+    console.log(registros[registros.length -1])
+
+    function listarRegistros() {
+        return  (
+            <Registros>
+                {registros.map((registro, index) => {
+                    return (
+                        <div className="registro-info" key={index}>
+                            <div className="data-descricao">
+                                <p>{registro.data}</p>
+                                <p>{registro.descricao}</p>
+                            </div>                            
+                            <p>{registro.valor}</p>
+                        </div>
+                    )
+                })}
+               <p>SALDO</p>
+            </Registros>            
+            
+        )
+    }
+    
+    
     return (
         <>
             <div>
-                <p>Olá, Fulano</p>
+                <p>Olá, {registros[registros.length -1]}</p>
+                {listarRegistros()}
                 <button>deslogar</button>
             </div>
             <Buttons className="buttons">
@@ -53,6 +78,17 @@ const Buttons = styled.div`
     width: 150px;
     display: flex;
     justify-content: space-between;
+`;
+
+const Registros = styled.div`
+    .registro-info {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .registro-info .data-descricao {
+        display: flex;
+    }
 `;
 export default Home;
 
