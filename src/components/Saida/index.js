@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 function Saida() {
   const { token } = useContext(UserContext);
@@ -28,7 +29,7 @@ function Saida() {
       <form onSubmit={salvarSaida}>
         <input type="text" placeholder="Valor" value={valor} required onChange={(e) => setValor(e.target.value)}></input>
         <input type="text" placeholder="Descrição" value={descricao} required onChange={(e) => setDescricao(e.target.value)}></input>
-        <button type="submit">Salvar Saída</button>
+        <Link to="/home"><button type="submit">Salvar Saída</button></Link>
       </form>
     </>
   );

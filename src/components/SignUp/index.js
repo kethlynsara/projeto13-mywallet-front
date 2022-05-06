@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -34,8 +35,8 @@ function SignUp() {
                 <input type="email" placeholder="E-mail" required value={email} onChange={(e) => setEmail(e.target.value)}></input>
                 <input type="password" placeholder="Senha" required value={senha1} onChange={(e) => setSenha1(e.target.value)}></input>
                 <input type="password" placeholder="Confirme a senha" required value={senha2} onChange={(e) => setSenha2(e.target.value)}></input>
-                <button type="submit">Cadastrar</button>
-                <a href="https://www.google.com/">Já tem uma conta? Entre agora!</a>
+                <Link to="/"><button type="submit">Cadastrar</button></Link>
+                <Link to="/">Já tem uma conta? Entre agora!</Link>
             </form>
         </>
     )

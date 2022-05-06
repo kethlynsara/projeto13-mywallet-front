@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
@@ -26,8 +27,8 @@ function Login() {
           <form onSubmit={fazerLogin}>
               <input type="email" placeholder="E-mail" value={email} required onChange={(e) => setEmail(e.target.value)}></input>
               <input type="password" placeholder="Senha" value={senha} required onChange={(e) => setSenha(e.target.value)}></input>
-              <button type="submit">Entrar</button>
-              <a href="https://www.google.com/">Primeira vez? Cadastre-se!</a>
+              <Link to="/home"><button type="submit">Entrar</button></Link>
+              <Link to="/sign-up">Primeira vez? Cadastre-se!</Link>
           </form>
       </Contanier>
     ) 

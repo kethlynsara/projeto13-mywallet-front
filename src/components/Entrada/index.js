@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 
 function Entrada() {
@@ -28,7 +29,7 @@ function Entrada() {
         <form onSubmit={salvarEntrada}>
             <input type="text" placeholder="Valor" required onChange={(e) => setValor(e.target.value)}></input>
             <input type="text" placeholder="Descrição" required onChange={(e) => setDescricao(e.target.value)}></input>
-            <button type="submit">Salvar Entrada</button>
+            <Link to="/home"><button type="submit">Salvar Entrada</button></Link>
         </form>
         </>
     );
