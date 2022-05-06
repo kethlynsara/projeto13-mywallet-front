@@ -1,14 +1,15 @@
 import axios from "axios";
 import { useState, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
 function Login() {
-    const { setToken } = useContext(UserContext);
+    const { token, setToken } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const navigate = useNavigate();
     
     async function fazerLogin(event) {
         event.preventDefault();
@@ -16,6 +17,8 @@ function Login() {
         try {
             const response = await axios.post("http://localhost:5000/sign-in", {email, senha});
             setToken(response.data);
+            console.log("token", token)
+            navigate("/home");
         }catch(e) {
             alert(e.response.data);
         }
@@ -24,10 +27,10 @@ function Login() {
     return (
       <Contanier>
           <H2>MyWallet</H2>
-          <form onSubmit={fazerLogin}>
+          <form>
               <input type="email" placeholder="E-mail" value={email} required onChange={(e) => setEmail(e.target.value)}></input>
               <input type="password" placeholder="Senha" value={senha} required onChange={(e) => setSenha(e.target.value)}></input>
-              <Link to="/home"><button type="submit">Entrar</button></Link>
+              <button type="button" onClick={fazerLogin}>Entrar</button>
               <Link to="/sign-up">Primeira vez? Cadastre-se!</Link>
           </form>
       </Contanier>

@@ -1,12 +1,15 @@
 import axios from "axios";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
 function Home() {
-    const { token } = useContext(UserContext);
+    const { token, setToken } = useContext(UserContext);
+
+    const [registros, setRegistros] = useState(null);
+    console.log(token);
 
     const config = {
         headers: {
@@ -14,27 +17,25 @@ function Home() {
         }
     };
 
-    useEffect(() => {
-
-    }, []);
-
     async function getRegistros() {
         try {
             const response = await axios.get("http://localhost:5000/registros", config);
-            console.log(response.data);
+            console.log("api response", response.data);
+            setRegistros(response.data);
         }catch(e) {
             console.log("não deu bom no get registros", e.response);
         }
-        return <h3>registros</h3>
     }
 
+    useEffect(() => getRegistros, []);
+
+    getRegistros();
     return (
         <>
             <div>
                 <p>Olá, Fulano</p>
                 <button>deslogar</button>
             </div>
-            {getRegistros()}
             <Buttons className="buttons">
                 <Div><Link to="/entrada"><button>+</button></Link></Div>
                 <Div><Link to="/saida"><button>-</button></Link></Div>

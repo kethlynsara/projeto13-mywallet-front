@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserContext from "../../contexts/UserContext";
 import { useState } from "react";
 
 import Login from "../Login";
@@ -7,13 +6,14 @@ import SignUp from "../SignUp";
 import Home from "../Home";
 import Entrada from "../Entrada"
 import Saida from "../Saida"
+import UserContext from "../../contexts/UserContext";
 
 import "../../assets/css/style.css"
 import "../../assets/css/reset.css"
 
 function App() {
     const [token, setToken] = useState("");
-    console.log("come onnnn")
+    console.log("come onnnn", token)
     return (
         <UserContext.Provider value={{token, setToken}}>
             <BrowserRouter>
