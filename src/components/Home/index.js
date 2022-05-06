@@ -17,7 +17,7 @@ function Home() {
         }
     };
 
-    async function getRegistros() {
+    async function listarRegistros() {
         try {
             const response = await axios.get("http://localhost:5000/registros", config);
             console.log("api response", response.data);
@@ -25,11 +25,11 @@ function Home() {
         }catch(e) {
             console.log("não deu bom no get registros", e.response);
         }
+        
     }
 
-    useEffect(() => getRegistros, []);
+    useEffect(() => listarRegistros(), []);
 
-    getRegistros();
     return (
         <>
             <div>
