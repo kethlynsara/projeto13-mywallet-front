@@ -1,18 +1,20 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 import styled from "styled-components";
 
 function Login() {
+    const { setToken } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     
     async function fazerLogin(event) {
         event.preventDefault();
-        console.log(email, senha);
 
         try {
-            await axios.post("http://localhost:5000/sign-in", {email, senha});
+            const response = await axios.post("http://localhost:5000/sign-in", {email, senha});
+            setToken(response.data);
         }catch(e) {
             alert(e.response.data);
         }

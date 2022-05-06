@@ -1,4 +1,6 @@
-//import styled from "styled-components";
+import axios from "axios";
+
+import styled from "styled-components";
 
 function Home() {
     return (
@@ -8,12 +10,23 @@ function Home() {
                 <button>deslogar</button>
             </div>
             <div>Registros</div>
-            <div>
-                <button>+</button>
-                <button>-</button>
-            </div>
+            <Buttons className="buttons">
+                <Div><button>+</button></Div>
+                <Div><button>-</button></Div>
+            </Buttons>
         </>
     );
 }
+
+const Div = styled.div`
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+`;
+const Buttons = styled.div`
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+`;
 export default Home;
 
