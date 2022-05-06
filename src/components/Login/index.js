@@ -1,17 +1,34 @@
+import axios from "axios";
+import { useState } from "react";
+
 import styled from "styled-components";
 
 function Login() {
-  return (
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    
+    async function fazerLogin(event) {
+        event.preventDefault();
+        console.log(email, senha);
+
+        try {
+            await axios.post("http://localhost:5000/sign-in", {email, senha});
+        }catch(e) {
+            alert(e.response.data);
+        }
+
+    } 
+    return (
       <Contanier>
           <H2>MyWallet</H2>
-          <form>
-              <input type="email" placeholder="E-mail"></input>
-              <input type="password" placeholder="Senha"></input>
-              <button type="button">Entrar</button>
+          <form onSubmit={fazerLogin}>
+              <input type="email" placeholder="E-mail" value={email} required onChange={(e) => setEmail(e.target.value)}></input>
+              <input type="password" placeholder="Senha" value={senha} required onChange={(e) => setSenha(e.target.value)}></input>
+              <button type="submit">Entrar</button>
               <a href="https://www.google.com/">Primeira vez? Cadastre-se!</a>
           </form>
       </Contanier>
-  )
+    ) 
     
 }
 
