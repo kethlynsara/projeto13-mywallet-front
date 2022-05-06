@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Home() {
-    const { token, setToken } = useContext(UserContext);
+    const { token } = useContext(UserContext);
     const [registros, setRegistros] = useState([]);
+    let entrada = 0;
+    let saida  = 0;
 
     const config = {
         headers: {
@@ -20,23 +22,28 @@ function Home() {
             const response = await axios.get("http://localhost:5000/registros", config);
             const { data } = response;
             setRegistros(data);
-
         }catch(e) {
             console.log("não deu bom no get registros", e.response);
         }
         
     }
 
-    useEffect(() => getRegistros(), []);
+    useEffect(() => {
+        getRegistros();
+    
+    }, []);
 
-
-    registros.map(e => console.log(e))
-    console.log(registros[registros.length -1])
 
     function listarRegistros() {
         return  (
             <Registros>
                 {registros.map((registro, index) => {
+                    if (registro.tipo === "Entrada") {
+                        entrada = entrada - registro.valor;
+                    }                     
+                    if (registro.tipo === "Saída"){
+                        saida -= registro.valor            
+                    }
                     return (
                         <div className="registro-info" key={index}>
                             <div className="data-descricao">
@@ -47,12 +54,15 @@ function Home() {
                         </div>
                     )
                 })}
-               <p>SALDO</p>
+                <div className="saldo">
+                    <p>SALDO</p>
+                    <p>{(entrada * (-1)) + saida}</p>
+                </div>
+               
             </Registros>            
             
         )
-    }
-    
+    }    
     
     return (
         <>
@@ -88,6 +98,11 @@ const Registros = styled.div`
 
     .registro-info .data-descricao {
         display: flex;
+    }
+
+    .saldo {
+        display: flex;
+        justify-content: space-between;
     }
 `;
 export default Home;
