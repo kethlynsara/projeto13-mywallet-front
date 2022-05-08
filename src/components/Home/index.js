@@ -33,7 +33,7 @@ function Home() {
 
     function listarRegistros() {
         return  (
-            <div className="registro-valores">
+            <Registros>
                 {registros.map((registro, index) => {
                     if (registro.tipo === "Entrada") {
                         entrada = entrada - registro.valor;
@@ -44,30 +44,31 @@ function Home() {
                     return (
                         <div className="registro-info" key={index}>
                             <div className="data-descricao">
-                                <p>{registro.data}</p>
-                                <p>{registro.descricao}</p>
+                                <p className="data">{registro.data}</p>
+                                <p className="descricao">{registro.descricao}</p>
                             </div>                            
-                            <p>{registro.valor}</p>
+                            <p className="valor">{registro.valor}</p>
                         </div>
                     )
                 })}
-                <div className="saldo">
-                    <p>SALDO</p>
-                    <p>{(entrada * (-1)) + saida}</p>
-                </div>
-               
-            </div>            
+                <div className="saldo-background">
+                    <Saldo>
+                        <p className="saldo-texto">SALDO</p>
+                        <p className="saldo-valor">{(entrada * (-1)) + saida}</p>
+                    </Saldo>
+                </div>   
+            </Registros>            
             
         )
     }    
     
     return (
         <Contanier>
-            <div className="header">
+            <Header>
                 <p>Olá, {registros[registros.length -1]}</p>
                 <button>deslogar</button>
-            </div>
-            <div className="registros">{listarRegistros()}</div>
+            </Header>
+            <Main>{listarRegistros()}</Main>
             <div className="buttons">
                 <Div>
                     <StyledLink to="/entrada"><ion-icon name="add-circle-outline"></ion-icon></StyledLink>
@@ -82,55 +83,35 @@ function Home() {
     );
 }
 
+const Header = styled.div`
+    font-family: 'Raleway';
+    width: 326px;
+    margin-left: 25px;
+    margin-right: 25px;
+    display: flex;
+    justify-content: space-between;
+
+    p {
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 31px;
+        color: #ffffff;
+    }
+`;
+
 const Contanier = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 25px;
-
-    .header {
-        width: 326px;
-        margin-left: 25px;
-        margin-right: 25px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .header p {
-        font-weight: 700;
-        font-size: 26px;
-        line-height: 31px;
-        color: #ffffff;
-    }
-
-    .registros {
-        margin-top: 22px;
-        width: 326px;
-        height: 446px;
-        background-color: #FFFFFF;
-        border-radius: 5px;
-    }
-
-    .registro-info {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .registro-info .data-descricao {
-        display: flex;
-    }
-
-    .saldo {
-        display: flex;
-        justify-content: space-between;
-    }
+    position: relative;
 
     .buttons {
         width: 326px;
         display: flex;
         justify-content: space-between;
-        margin-top: 13px;
+        margin-top: 537px;
     }
 
     ion-icon {
@@ -141,6 +122,76 @@ const Contanier = styled.div`
         margin: 10.56px 123.56px 0 9.56px;
         background-color: #A328D6;
     }
+`;
+
+const Main = styled.div`
+    position: absolute;
+    width: 326px;
+    height: 446px;
+    margin-top: 78px;
+    margin-bottom: 143px;
+
+    p {
+        background-color: #FFFFFF;
+        z-index: 7;
+    }
+`;
+
+const Registros = styled.div`
+    font-family: 'Raleway';
+    padding: 0 11px 10px 12px;
+    width: 326px;
+    height: 446px;
+    border-radius: 5px;
+    position: absolute;
+    background-color: #ffffff;
+
+    .registro-info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+        background-color: #ffffff;
+
+    }
+
+    .registro-info .data-descricao {
+        display: flex;
+        background-color: #ffffff;
+    }
+
+    .data {
+        color: #C6C6C6;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        margin-right: 10px;
+    }
+
+    .descricao {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    /* .saldo-valor {
+    } */
+`;
+
+const Saldo = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 305px;
+    background-color: #FFFFFF;
+    margin-top: 40px;
+    
+
+    .saldo-texto {
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 20px;
+        color: #000000;
+    }
+
 `;
 
 const StyledLink = styled(Link)`

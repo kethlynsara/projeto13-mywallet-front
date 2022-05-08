@@ -45,6 +45,7 @@ const Contanier = styled.div`
     padding: 25px 24px 383px 24px;
 
     h1 {
+        font-family: 'Raleway';
         font-weight: 700;
         font-size: 26px;
         line-height: 31px;
