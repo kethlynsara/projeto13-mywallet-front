@@ -5,11 +5,14 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
+import loginOutline from "../../assets/img/login-outline.svg"
+
 function Home() {
     const { token } = useContext(UserContext);
     const [registros, setRegistros] = useState([]);
     let entrada = 0;
     let saida  = 0;
+    let saldo = 0;
 
     const config = {
         headers: {
@@ -39,7 +42,10 @@ function Home() {
                         entrada = entrada - registro.valor;
                     }                     
                     if (registro.tipo === "Saída"){
-                        saida -= registro.valor            
+                        saida -= registro.valor          
+                    }
+                    if (index === registros.length - 1) {
+                        saldo = (entrada * (-1)) + saida; 
                     }
                     return (
                         <div className="registro-info" key={index}>
@@ -47,14 +53,14 @@ function Home() {
                                 <p className="data">{registro.data}</p>
                                 <p className="descricao">{registro.descricao}</p>
                             </div>                            
-                            <p className="valor">{registro.valor}</p>
+                            <RegistroValor cor={registro.tipo === "Entrada" ? "#03AC00" : "#C70000"}>{registro.valor}</RegistroValor>
                         </div>
                     )
                 })}
                 <div className="saldo-background">
                     <Saldo>
                         <p className="saldo-texto">SALDO</p>
-                        <p className="saldo-valor">{(entrada * (-1)) + saida}</p>
+                        <SaldoValor cor={saldo >= 0 ? "#03AC00" : "#C70000"}>{saldo.toFixed(2)}</SaldoValor>
                     </Saldo>
                 </div>   
             </Registros>            
@@ -66,7 +72,7 @@ function Home() {
         <Contanier>
             <Header>
                 <p>Olá, {registros[registros.length -1]}</p>
-                <button>deslogar</button>
+                <img src={loginOutline} alt="deslogar" />
             </Header>
             <Main>{listarRegistros()}</Main>
             <div className="buttons">
@@ -97,6 +103,11 @@ const Header = styled.div`
         line-height: 31px;
         color: #ffffff;
     }
+
+    img {
+        width: 23px;
+        height: 24px;
+    }
 `;
 
 const Contanier = styled.div`
@@ -105,13 +116,12 @@ const Contanier = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: 25px;
-    position: relative;
 
     .buttons {
         width: 326px;
         display: flex;
         justify-content: space-between;
-        margin-top: 537px;
+        margin-top: 13px;
     }
 
     ion-icon {
@@ -125,11 +135,9 @@ const Contanier = styled.div`
 `;
 
 const Main = styled.div`
-    position: absolute;
     width: 326px;
     height: 446px;
-    margin-top: 78px;
-    margin-bottom: 143px;
+    margin-top: 22px;
 
     p {
         background-color: #FFFFFF;
@@ -139,11 +147,10 @@ const Main = styled.div`
 
 const Registros = styled.div`
     font-family: 'Raleway';
-    padding: 0 11px 10px 12px;
+    padding: 5px 11px 10px 12px;
     width: 326px;
     height: 446px;
     border-radius: 5px;
-    position: absolute;
     background-color: #ffffff;
 
     .registro-info {
@@ -172,9 +179,10 @@ const Registros = styled.div`
         font-size: 16px;
         line-height: 19px;
     }
+`;
 
-    /* .saldo-valor {
-    } */
+const RegistroValor = styled.p`
+    color: ${props => props.cor};
 `;
 
 const Saldo = styled.div`
@@ -183,6 +191,8 @@ const Saldo = styled.div`
     width: 305px;
     background-color: #FFFFFF;
     margin-top: 40px;
+    position: absolute;
+    bottom: 217px;
     
 
     .saldo-texto {
@@ -192,6 +202,10 @@ const Saldo = styled.div`
         color: #000000;
     }
 
+`;
+
+const SaldoValor = styled.p`
+    color: ${props => props.cor};
 `;
 
 const StyledLink = styled(Link)`
