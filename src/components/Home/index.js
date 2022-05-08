@@ -39,10 +39,10 @@ function Home() {
             <Registros>
                 {registros.map((registro, index) => {
                     if (registro.tipo === "Entrada") {
-                        entrada = entrada - registro.valor;
+                        entrada = entrada - parseFloat(registro.valor);
                     }                     
                     if (registro.tipo === "Saída"){
-                        saida -= registro.valor          
+                        saida -= parseFloat(registro.valor)          
                     }
                     if (index === registros.length - 1) {
                         saldo = (entrada * (-1)) + saida; 
@@ -60,7 +60,7 @@ function Home() {
                 <div className="saldo-background">
                     <Saldo>
                         <p className="saldo-texto">SALDO</p>
-                        <SaldoValor cor={saldo >= 0 ? "#03AC00" : "#C70000"}>{saldo.toFixed(2)}</SaldoValor>
+                        <SaldoValor cor={saldo >= 0 ? "#03AC00" : "#C70000"}>{saldo.toFixed(2).replace(".",",")}</SaldoValor>
                     </Saldo>
                 </div>   
             </Registros>            
@@ -72,11 +72,6 @@ function Home() {
             </Registros>
         )
     }    
-
-    // function deslogar() {
-    //     setToken("");
-    //     navigate("/");
-    // }
 
     return (
         <Contanier>
