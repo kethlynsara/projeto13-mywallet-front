@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
 import loginOutline from "../../assets/img/login-outline.svg"
 
 function Home() {
-    const { token } = useContext(UserContext);
+    const { token, setToken } = useContext(UserContext);
     const [registros, setRegistros] = useState([]);
+    const navigate = useNavigate();
     let entrada = 0;
     let saida  = 0;
     let saldo = 0;
@@ -33,9 +34,8 @@ function Home() {
 
     useEffect(() => getRegistros(), []);
 
-
     function listarRegistros() {
-        return  (
+        return  registros.length > 1 ? (
             <Registros>
                 {registros.map((registro, index) => {
                     if (registro.tipo === "Entrada") {
@@ -65,14 +65,27 @@ function Home() {
                 </div>   
             </Registros>            
             
+        ) : 
+        (
+            <Registros>
+                <SemRegistros>Não há registros de entrada ou saída</SemRegistros>
+            </Registros>
         )
     }    
-    
+
+    // function deslogar() {
+    //     setToken("");
+    //     navigate("/");
+    // }
+
     return (
         <Contanier>
             <Header>
                 <p>Olá, {registros[registros.length -1]}</p>
-                <img src={loginOutline} alt="deslogar" />
+                <img src={loginOutline} alt="deslogar"onClick={() => {
+                     setToken("");
+                     navigate("/");
+                }}/>
             </Header>
             <Main>{listarRegistros()}</Main>
             <div className="buttons">
@@ -179,10 +192,27 @@ const Registros = styled.div`
         font-size: 16px;
         line-height: 19px;
     }
+
+    .saldo-background {
+        background-color: #FFFFFF;
+        position: absolute;
+        top: 450px;
+    }
 `;
 
 const RegistroValor = styled.p`
     color: ${props => props.cor};
+`;
+
+const SemRegistros = styled.p`
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: #868686;
+    width: 180px;
+    height: 46px;
+    margin: 200px 73px 200px 73px;
 `;
 
 const Saldo = styled.div`
@@ -191,8 +221,7 @@ const Saldo = styled.div`
     width: 305px;
     background-color: #FFFFFF;
     margin-top: 40px;
-    position: absolute;
-    bottom: 217px;
+    position: relative;
     
 
     .saldo-texto {

@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Login() {
-    const { token, setToken } = useContext(UserContext);
+    const { setToken } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const navigate = useNavigate();
@@ -17,7 +17,6 @@ function Login() {
         try {
             const response = await axios.post("http://localhost:5000/sign-in", {email, senha});
             setToken(response.data);
-            console.log("token", token)
             navigate("/home");
         }catch(e) {
             alert(e.response.data);
