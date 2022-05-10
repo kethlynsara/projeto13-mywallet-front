@@ -20,7 +20,7 @@ function Entrada() {
     async function salvarEntrada(event) {
         event.preventDefault();
         try {
-            await axios.post("http://localhost:5000/registros", {valor, descricao, tipo: "Entrada"}, config);
+            await axios.post("https://mywalletprojeto-13.herokuapp.com/registros", {valor, descricao, tipo: "Entrada"}, config);
             navigate("/home");
         }catch(e) {
             console.log("não foi possível registrar a entrada", e);

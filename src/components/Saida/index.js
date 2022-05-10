@@ -20,7 +20,7 @@ function Saida() {
   async function salvarSaida(event) {
       event.preventDefault();
       try {
-        await axios.post("http://localhost:5000/registros", {valor, descricao, tipo: "Saída"}, config);
+        await axios.post("https://mywalletprojeto-13.herokuapp.com/registros", {valor, descricao, tipo: "Saída"}, config);
         navigate("/home");
       }catch(e) {
           console.log("Não foi possível registrar a saída");

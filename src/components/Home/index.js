@@ -23,11 +23,11 @@ function Home() {
 
     async function getRegistros() {
         try {
-            const response = await axios.get("http://localhost:5000/registros", config);
+            const response = await axios.get("https://mywalletprojeto-13.herokuapp.com/registros", config);
             const { data } = response;
             setRegistros(data);
         }catch(e) {
-            console.log("não deu bom no get registros", e.response);
+            console.log(e.response);
         }
         
     }

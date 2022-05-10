@@ -15,7 +15,7 @@ function SignUp() {
         event.preventDefault();
 
         try {
-            await axios.post("http://localhost:5000/sign-up", {
+            await axios.post("https://mywalletprojeto-13.herokuapp.com/sign-up", {
                 nome,
                 email,
                 senha1,
