@@ -1,15 +1,13 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Oval } from "react-loader-spinner";
 import 'react-toastify/dist/ReactToastify.min.css';
-import UserContext from "../../contexts/UserContext";
 toast.configure();
 
 function Login() {
-    const { setToken } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [loading, setLoading] = useState(false);
@@ -20,7 +18,6 @@ function Login() {
         try {
             setLoading(true);
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, {email, senha});
-            setToken(response.data);
             const serializedData = JSON.stringify(response.data);
             localStorage.setItem("token", serializedData);
             navigate("/home");
