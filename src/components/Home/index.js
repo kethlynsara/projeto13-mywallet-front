@@ -1,11 +1,14 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import UserContext from "../../contexts/UserContext";
 import { Link, useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
 
+import UserContext from "../../contexts/UserContext";
 import loginOutline from "../../assets/img/login-outline.svg"
+
+toast.configure();
 
 function Home() {
     const { token, setToken } = useContext(UserContext);
@@ -23,17 +26,17 @@ function Home() {
 
     async function getRegistros() {
         try {
-            const response = await axios.get("https://mywalletprojeto-13.herokuapp.com/registros", config);
+            const response = await axios.get(process.env.REACT_APP_API_URL + "/registros", config);
             const { data } = response;
             setRegistros(data);
         }catch(e) {
-            console.log(e.response);
+            toast("Não foi possível obter informações!");
         }
         
     }
 
     useEffect(() => getRegistros(), []);
-
+    
     function listarRegistros() {
         return  registros.length > 1 ? (
             <Registros>
@@ -115,6 +118,10 @@ const Header = styled.div`
     img {
         width: 23px;
         height: 24px;
+
+        :hover {
+            cursor: pointer;
+        }
     }
 `;
 
@@ -155,18 +162,19 @@ const Main = styled.div`
 
 const Registros = styled.div`
     font-family: 'Raleway';
-    padding: 5px 11px 10px 12px;
+    padding: 5px 11px 49px 12px;
     width: 326px;
     height: 446px;
     border-radius: 5px;
     background-color: #ffffff;
+    overflow: auto;
+    margin-bottom: 30px;
 
     .registro-info {
         display: flex;
         justify-content: space-between;
         margin-top: 25px;
         background-color: #ffffff;
-
     }
 
     .registro-info .data-descricao {
@@ -189,9 +197,11 @@ const Registros = styled.div`
     }
 
     .saldo-background {
-        background-color: #FFFFFF;
+        background-color: #fff;
         position: absolute;
         top: 450px;
+        height: 73px;
+        z-index: 15;
     }
 `;
 
@@ -214,10 +224,9 @@ const Saldo = styled.div`
     display: flex;
     justify-content: space-between;
     width: 305px;
-    background-color: #FFFFFF;
     margin-top: 40px;
     position: relative;
-    
+    z-index: 10;
 
     .saldo-texto {
         font-weight: 700;
@@ -234,6 +243,9 @@ const SaldoValor = styled.p`
 
 const StyledLink = styled(Link)`
     background-color: #A328D6;
+    :hover {
+            cursor: pointer;
+        }
 `;
 
 const Div = styled.div`

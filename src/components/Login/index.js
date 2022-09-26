@@ -1,25 +1,30 @@
-import axios from "axios";
 import { useState, useContext } from "react";
-import UserContext from "../../contexts/UserContext";
 import { Link, useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+import { Oval } from "react-loader-spinner";
+import 'react-toastify/dist/ReactToastify.min.css';
+import UserContext from "../../contexts/UserContext";
+toast.configure();
 
 function Login() {
     const { setToken } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     
     async function fazerLogin(event) {
         event.preventDefault();
-
         try {
-            const response = await axios.post("https://mywalletprojeto-13.herokuapp.com/sign-in", {email, senha});
+            setLoading(true);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, {email, senha});
             setToken(response.data);
             navigate("/home");
         }catch(e) {
-            alert(e.response.data);
+            toast("Confira seus dados!");
+            setLoading(false);
         }
 
     } 
@@ -29,7 +34,16 @@ function Login() {
           <form>
               <input type="email" placeholder="E-mail" value={email} required onChange={(e) => setEmail(e.target.value)}></input>
               <input type="password" placeholder="Senha" value={senha} required onChange={(e) => setSenha(e.target.value)}></input>
-              <button type="button" onClick={fazerLogin}>Entrar</button>
+              
+              {!loading ? 
+                <button type="button" onClick={fazerLogin}>Entrar</button>
+                :
+                <LoadingDiv>
+                    <p>Entrar</p>
+                    <Oval color="#FCF6FE" width={20} />
+                </LoadingDiv>
+                }
+
               <StyledLink to="/sign-up">Primeira vez? Cadastre-se!</StyledLink>
           </form>
       </Contanier>
@@ -54,9 +68,9 @@ const Contanier = styled.div`
     }
 
     form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 24px;;
+        display: flex;
+        flex-direction: column;
+        margin-top: 24px;
     }
 
     input {
@@ -88,6 +102,10 @@ const Contanier = styled.div`
         font-weight: 700;
         font-size: 20px;
         line-height: 23px;
+
+        :hover {
+            cursor: pointer;
+        }
     }
 `;
 
@@ -99,6 +117,28 @@ const StyledLink = styled(Link)`
     font-size: 15px;
     line-height: 18px;
     text-align: center;
+`;
+
+const LoadingDiv = styled.div`
+    font-family: 'Raleway', sans-serif;
+    background-color: #A328D6;
+    border-radius: 5px;
+    border: none;
+    width: 326px;
+    height: 46px;    
+    margin-bottom: 36px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    p {
+        margin-right: 10px;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 23px;
+        color: #ffffff;
+    }
 `;
 
 export default Login;

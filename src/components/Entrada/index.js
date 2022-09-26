@@ -1,9 +1,12 @@
-import axios from "axios";
 import { useState, useContext } from "react";
-import UserContext from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
+import UserContext from "../../contexts/UserContext";
+
+toast.configure();
 
 function Entrada() {
     const { token } = useContext(UserContext);
@@ -20,10 +23,10 @@ function Entrada() {
     async function salvarEntrada(event) {
         event.preventDefault();
         try {
-            await axios.post("https://mywalletprojeto-13.herokuapp.com/registros", {valor, descricao, tipo: "Entrada"}, config);
+            await axios.post(process.env.REACT_APP_API_URL + "/registros", {valor, descricao, tipo: "Entrada"}, config);
             navigate("/home");
         }catch(e) {
-            console.log("não foi possível registrar a entrada", e);
+            toast("Não foi possível registrar a entrada");
         }
     }
     return (
@@ -83,6 +86,10 @@ const Contanier = styled.div`
         font-size: 20px;
         line-height: 23px;
         color: #ffffff;
+
+        :hover {
+            cursor: pointer;
+        }
     }
 `;
 

@@ -1,5 +1,8 @@
 * {
     box-sizing: border-box;
-    background-color: #8C11BE;
     font-family: 'Raleway', sans-serif;
+}
+
+body {
+    background-color: #8C11BE;
 }

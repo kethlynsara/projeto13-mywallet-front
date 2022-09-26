@@ -1,21 +1,25 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import styled from "styled-components";
+import { Oval } from "react-loader-spinner";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
+toast.configure();
 
 function SignUp() {
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha1, setSenha1] = useState("");
     const [senha2, setSenha2] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
      async function cadastrar(event) {
         event.preventDefault();
-
         try {
-            await axios.post("https://mywalletprojeto-13.herokuapp.com/sign-up", {
+            setLoading(true);
+            await axios.post(process.env.REACT_APP_API_URL + "/sign-up", {
                 nome,
                 email,
                 senha1,
@@ -23,27 +27,36 @@ function SignUp() {
             });
             navigate("/");
         }catch(e) {
-            console.log(e.response);
-            alert(e.response.data);
+            toast('Confira seus dados!');
+            setLoading(false);
         }
     }
 
     return (
-        <Contanier>
+        <Container>
             <h1>MyWallet</h1>
             <form>
                 <input type="text" placeholder="Nome" required value={nome} onChange={(e) => setNome(e.target.value)}></input>
                 <input type="email" placeholder="E-mail" required value={email} onChange={(e) => setEmail(e.target.value)}></input>
                 <input type="password" placeholder="Senha" required value={senha1} onChange={(e) => setSenha1(e.target.value)}></input>
                 <input type="password" placeholder="Confirme a senha" required value={senha2} onChange={(e) => setSenha2(e.target.value)}></input>
-                <button type="submit" onClick={cadastrar}>Cadastrar</button>
+
+                {!loading ? 
+                <button type="submit" onClick={cadastrar}>Cadastrar</button> 
+                :
+                <LoadingDiv>
+                    <p>Cadastrar</p>
+                    <Oval color="#FCF6FE" width={20} />
+                </LoadingDiv>
+                }
+
                 <StyledLink to="/">Já tem uma conta? Entre agora!</StyledLink>
             </form>
-        </Contanier>
+        </Container>
     )
 }
 
-const Contanier = styled.div`
+const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -94,6 +107,10 @@ const Contanier = styled.div`
         font-weight: 700;
         font-size: 20px;
         line-height: 23px;
+
+        :hover {
+            cursor: pointer;
+        }
     }
 `;
 
@@ -105,6 +122,28 @@ const StyledLink = styled(Link)`
     font-size: 15px;
     line-height: 18px;
     text-align: center;
+`;
+
+const LoadingDiv = styled.div`
+    font-family: 'Raleway', sans-serif;
+    background-color: #A328D6;
+    border-radius: 5px;
+    border: none;
+    width: 326px;
+    height: 46px;    
+    margin-bottom: 36px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    p {
+        margin-right: 10px;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 23px;
+        color: #ffffff;
+    }
 `;
 
 export default SignUp;
