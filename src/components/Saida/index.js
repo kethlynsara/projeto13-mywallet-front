@@ -3,6 +3,7 @@ import { useNavigate  } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import { Oval } from "react-loader-spinner";
 import 'react-toastify/dist/ReactToastify.min.css';
 
 toast.configure();
@@ -12,6 +13,7 @@ function Saida() {
   const token = JSON.parse(localStorageData);
   const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   
   const config = {
@@ -23,10 +25,12 @@ function Saida() {
   async function salvarSaida(event) {
       event.preventDefault();
       try {
+        setLoading(true);
         await axios.post(process.env.REACT_APP_API_URL + "/registros", {valor, descricao, tipo: "Saída"}, config);
         navigate("/home");
       }catch(e) {
           toast("Não foi possível registrar a saída");
+          setLoading(false);
       }
   }
 
@@ -36,7 +40,15 @@ function Saida() {
       <form>
         <input type="text" placeholder="Valor" value={valor} required onChange={(e) => setValor(e.target.value)}></input>
         <input type="text" placeholder="Descrição" value={descricao} required onChange={(e) => setDescricao(e.target.value)}></input>
-        <button type="submit" onClick={salvarSaida}>Salvar Saída</button>
+      
+        {!loading ?
+            <button type="submit" onClick={salvarSaida}>Salvar Saída</button>
+            :
+            <LoadingDiv>
+                <p>Salvar Entrada</p>
+                <Oval color="#FCF6FE" width={20} />
+            </LoadingDiv>  
+        }
       </form>
     </Contanier>
   );
@@ -91,6 +103,26 @@ const Contanier = styled.div`
         :hover {
             cursor: pointer;
         }
+    }
+`;
+
+const LoadingDiv = styled.div`
+    height: 46px;
+    background-color: #A328D6;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 23px;
+    color: #ffffff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        margin-right: 10px;
     }
 `;
 
