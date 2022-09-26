@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
-import UserContext from "../../contexts/UserContext";
 
 toast.configure();
 
 function Saida() {
-  const { token } = useContext(UserContext);
+  const localStorageData = localStorage.getItem("token");
+  const token = JSON.parse(localStorageData);
   const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState("");
   const navigate = useNavigate();

@@ -1,17 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 
-import UserContext from "../../contexts/UserContext";
 import loginOutline from "../../assets/img/login-outline.svg"
 
 toast.configure();
 
 function Home() {
-    const { token, setToken } = useContext(UserContext);
+    const localStorageData = localStorage.getItem("token");
+    const token = JSON.parse(localStorageData);
     const [registros, setRegistros] = useState([]);
     const navigate = useNavigate();
     let entrada = 0;
@@ -81,7 +81,7 @@ function Home() {
             <Header>
                 <p>Olá, {registros[registros.length -1]}</p>
                 <img src={loginOutline} alt="deslogar"onClick={() => {
-                     setToken("");
+                     localStorage.removeItem("token");
                      navigate("/");
                 }}/>
             </Header>

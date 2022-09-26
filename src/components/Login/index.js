@@ -21,6 +21,8 @@ function Login() {
             setLoading(true);
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, {email, senha});
             setToken(response.data);
+            const serializedData = JSON.stringify(response.data);
+            localStorage.setItem("token", serializedData);
             navigate("/home");
         }catch(e) {
             toast("Confira seus dados!");
